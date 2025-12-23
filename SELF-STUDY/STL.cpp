@@ -13,7 +13,7 @@
 //built-in algorithms
 
 #include <iostream>
-#include <string> //container
+#include <string> //container STL
 using namespace std;
 
 int main()
