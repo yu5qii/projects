@@ -5,7 +5,7 @@ import sys
 from numba import njit, prange
 
 # Configuration
-WIDTH, HEIGHT = 400, 300  # Resolution
+WIDTH, HEIGHT = 800, 600  # Resolution
 RS = 1.0  # Schwarzschild radius
 
 @njit(parallel=True, fastmath=True)
@@ -14,7 +14,7 @@ def render_frame(cam_pos, cam_dir, cam_up, width, height, time_val):
     buffer = np.zeros((height, width, 3), dtype=np.uint8)
     
     # Camera Plane Setup
-    fov_deg = 60.0
+    fov_deg = -60.0
     fov_rad = math.radians(fov_deg)
     scale = math.tan(fov_rad * 0.5)
     aspect = width / height
@@ -118,13 +118,17 @@ def render_frame(cam_pos, cam_dir, cam_up, width, height, time_val):
                         pat_angle = math.atan2(iz, ix)
                         pat = math.sin(pat_angle * 3.0 + ir * 2.0 - time_val * 4.0)
                         
-                        intensity = 0.5 + 0.5 * pat
+                        # intensity = 0.5 + 0.5 * pat
+                        intensity = 1.0       #for constant brightness
                         
                         # Color Gradient (Hotter inside)
                         temp = 12.0 / ir
-                        col_r = min(1.0, temp * 0.8) * intensity
-                        col_g = min(1.0, temp * 0.4) * intensity
-                        col_b = min(1.0, temp * 0.1) * intensity
+                        col_r = min(1.0, temp * 0.9) * intensity
+                        col_g = min(1.0, temp * 0.8) * intensity
+                        col_b = min(1.0, temp * 0.7) * intensity
+                        # col_r = (0.5 + 0.5 *math.sin(time_val)) * intensity
+                        # col_g = (0.5 + 0.5 * math.sin(time_val + 2.0)) * intensity
+                        # col_b = (0.5 + 0.5 *math.sin(time_val + 4.0)) * intensity
                         hit_disk = True
                         break
                 
@@ -164,7 +168,7 @@ def render_frame(cam_pos, cam_dir, cam_up, width, height, time_val):
     return buffer
 
 def main():
-    print("Initialize...")
+    print("Initialize ...")
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Real-Time Black Hole (WASD to Move, Mouse to Look)")
@@ -177,7 +181,7 @@ def main():
     yaw = 0.0 
     pitch = 0.0
     
-    print("Compiling Numba Kernel (First run takes time)...")
+    print("Compiling...")
     # Warmup
     render_frame(cam_pos, np.array([0.0,0.0,1.0]), np.array([0.0,1.0,0.0]), WIDTH, HEIGHT, 0.0)
     print("Running!")
@@ -200,8 +204,8 @@ def main():
                     running = False
             elif event.type == pygame.MOUSEMOTION:
                 dx, dy = event.rel
-                yaw += dx * 0.005
-                pitch -= dy * 0.005
+                yaw -= dx * 0.001
+                pitch += dy * 0.001
                 pitch = max(-1.5, min(1.5, pitch))
         
         # Vectors
@@ -227,10 +231,10 @@ def main():
         speed = 0.5
         if keys[pygame.K_LSHIFT]: speed = 1.0
         
-        if keys[pygame.K_w]: cam_pos += fwd * speed
         if keys[pygame.K_s]: cam_pos -= fwd * speed
-        if keys[pygame.K_a]: cam_pos -= right * speed
-        if keys[pygame.K_d]: cam_pos += right * speed
+        if keys[pygame.K_w]: cam_pos += fwd * speed
+        if keys[pygame.K_a]: cam_pos += right * speed
+        if keys[pygame.K_d]: cam_pos -= right * speed
         if keys[pygame.K_e]: cam_pos += up * speed
         if keys[pygame.K_q]: cam_pos -= up * speed
         
