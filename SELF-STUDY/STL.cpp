@@ -19,6 +19,6 @@ using namespace std;
 int main()
 {
     string str;
-    getline (cin, str);
+    getline (cin, str);     //function or method of container STL
     cout << "You entered: " << str;
 }
