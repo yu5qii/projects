@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Forma — Design & Technology</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0d;
+      --fg: #9DB2BF;
+      --muted: #526D82;
+      --accent: #DDE6ED;
+      --border: rgba(221, 230, 237, 0.5);
+      --serif: 'Playfair Display', serif;
+      --mono: 'DM Mono', monospace;
+    }
+
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--mono);
+      font-weight: 300;
+      font-size: 13px;
+      letter-spacing: 0.03em;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(13,13,13,0.85);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 18px;
+      letter-spacing: 0.08em;
+      color: var(--fg);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--fg); }
+
+    .nav-cta {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid rgba(200,184,154,0.4);
+      padding: 0.4rem 1rem;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-cta:hover { background: var(--accent); color: var(--bg); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 2.5rem 4rem;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg-text {
+      position: absolute;
+      top: 50%;
+      left: -0.05em;
+      transform: translateY(-50%);
+      font-family: var(--serif);
+      font-size: clamp(120px, 18vw, 220px);
+      font-weight: 700;
+      color: rgba(240,237,230,0.03);
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+      letter-spacing: -0.04em;
+    }
+
+    .hero-tag {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-headline {
+      font-family: var(--serif);
+      font-size: clamp(42px, 6vw, 80px);
+      font-weight: 400;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      max-width: 800px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-headline em { font-style: italic; color: var(--accent); }
+
+    .hero-sub {
+      color: var(--muted);
+      max-width: 380px;
+      line-height: 1.8;
+      margin-bottom: 3rem;
+    }
+
+    .hero-actions { display: flex; gap: 1.5rem; align-items: center; }
+
+    .btn-primary {
+      background: var(--fg);
+      color: var(--bg);
+      text-decoration: none;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.75rem 2rem;
+      transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+
+    .btn-ghost {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.2s;
+    }
+    .btn-ghost:hover { color: var(--fg); }
+    .btn-ghost::after { content: '↗'; font-size: 14px; }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      right: 2.5rem;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .hero-scroll::before {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 48px;
+      background: var(--muted);
+    }
+
+    /* MARQUEE */
+    .marquee-wrap {
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      padding: 1rem 0;
+      background: rgba(200,184,154,0.04);
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 4rem;
+      white-space: nowrap;
+      animation: marquee 22s linear infinite;
+    }
+
+    .marquee-track span {
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .marquee-track span.accent { color: var(--accent); }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* SECTION WRAPPER */
+    section { padding: 5rem 2.5rem; }
+
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--muted);
+    }
+
+    /* WORK GRID */
+    .work { border-bottom: 1px solid var(--border); }
+
+    .work-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 4rem;
+    }
+
+    .work-title {
+      font-family: var(--serif);
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+    }
+
+    .work-all-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .work-all-link:hover { color: var(--fg); border-color: var(--fg); }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1.5rem;
+    }
+
+    .work-card {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      border: 1px solid var(--border);
+    }
+
+    .work-card:nth-child(1) { grid-column: span 7; grid-row: span 2; }
+    .work-card:nth-child(2) { grid-column: span 5; }
+    .work-card:nth-child(3) { grid-column: span 5; }
+    .work-card:nth-child(4) { grid-column: span 4; }
+    .work-card:nth-child(5) { grid-column: span 4; }
+    .work-card:nth-child(6) { grid-column: span 4; }
+
+    .card-img {
+      width: 100%;
+      aspect-ratio: 16/10;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      background: linear-gradient(135deg, #1a1a1a 0%, #222 100%);
+    }
+
+    .work-card:nth-child(1) .card-img { aspect-ratio: 3/4; }
+
+    .card-img-placeholder {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--serif);
+      font-size: clamp(32px, 5vw, 64px);
+      color: rgba(240,237,230,0.06);
+      letter-spacing: -0.04em;
+      font-style: italic;
+    }
+
+    .work-card:hover .card-img-placeholder { transform: scale(1.04); }
+
+    .card-meta {
+      padding: 1rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-top: 1px solid var(--border);
+    }
+
+    .card-name {
+      font-family: var(--serif);
+      font-size: 15px;
+      font-weight: 400;
+      letter-spacing: 0;
+    }
+
+    .card-index {
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    .card-tags {
+      margin-top: 0.35rem;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 2px 6px;
+    }
+
+    .work-card:hover .card-name { color: var(--accent); }
+
+    /* SERVICES */
+    .services { border-bottom: 1px solid var(--border); }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+
+    .service-item {
+      padding: 2.5rem 2.5rem;
+      border: 1px solid var(--border);
+      margin: -1px 0 0 -1px;
+      transition: background 0.2s;
+      cursor: default;
+    }
+
+    .service-item:hover { background: rgba(200,184,154,0.04); }
+
+    .service-num {
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      margin-bottom: 1.5rem;
+    }
+
+    .service-name {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      margin-bottom: 1rem;
+    }
+
+    .service-desc {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 12px;
+    }
+
+    /* ABOUT STRIP */
+    .about {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+      padding: 0;
+    }
+
+    .about-text {
+      padding: 5rem 2.5rem;
+      border-right: 1px solid var(--border);
+    }
+
+    .about-headline {
+      font-family: var(--serif);
+      font-size: clamp(26px, 3.5vw, 44px);
+      font-weight: 400;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+    }
+
+    .about-headline em { font-style: italic; color: var(--accent); }
+
+    .about-body {
+      color: var(--muted);
+      line-height: 1.9;
+      max-width: 420px;
+    }
+
+    .about-stats {
+      padding: 5rem 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-content: start;
+    }
+
+    .stat-num {
+      font-family: var(--serif);
+      font-size: clamp(36px, 5vw, 60px);
+      font-weight: 400;
+      letter-spacing: -0.03em;
+      color: var(--fg);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 4rem 2.5rem 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2rem;
+      align-items: end;
+    }
+
+    .footer-brand {
+      font-family: var(--serif);
+      font-size: 28px;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-tagline { color: var(--muted); font-size: 12px; line-height: 1.7; }
+
+    .footer-links h4 {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .footer-links ul { list-style: none; }
+    .footer-links li { margin-bottom: 0.6rem; }
+    .footer-links a {
+      color: var(--fg);
+      text-decoration: none;
+      font-size: 12px;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--accent); }
+
+    .footer-contact { text-align: right; }
+    .footer-contact p { color: var(--muted); font-size: 11px; margin-bottom: 0.4rem; letter-spacing: 0.05em; }
+    .footer-contact a {
+      display: block;
+      font-family: var(--serif);
+      font-size: 16px;
+      color: var(--fg);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-contact a:hover { color: var(--accent); }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding: 1.25rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+    }
+
+    /* FADE IN ANIMATION */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-tag, .hero-headline, .hero-sub, .hero-actions {
+      animation: fadeUp 0.8s ease both;
+    }
+    .hero-tag    { animation-delay: 0.1s; }
+    .hero-headline { animation-delay: 0.25s; }
+    .hero-sub    { animation-delay: 0.4s; }
+    .hero-actions { animation-delay: 0.55s; }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.25rem; }
+      .nav-links { display: none; }
+      section { padding: 3.5rem 1.25rem; }
+      .hero { padding: 0 1.25rem 3rem; }
+      .work-header { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+      .work-grid { grid-template-columns: 1fr; }
+      .work-card:nth-child(n) { grid-column: span 1; grid-row: span 1; }
+      .services-grid { grid-template-columns: 1fr; }
+      .about { grid-template-columns: 1fr; }
+      .about-text { border-right: none; border-bottom: 1px solid var(--border); }
+      .about-stats { padding: 3rem 1.25rem; }
+      footer { grid-template-columns: 1fr; gap: 3rem; }
+      .footer-contact { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Forma</a>
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+    <a href="mailto:hello@forma.studio" class="nav-cta">Get in touch</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg-text">Forma</div>
+    <p class="hero-tag">Design &amp; Technology Studio — EST. 2024</p>
+    <h1 class="hero-headline">
+      We craft digital<br/>
+      <em>experiences</em> that<br/>
+      move people.
+    </h1>
+    <p class="hero-sub">A boutique studio building premium brands, storefronts, and digital products for companies that care about craft.</p>
+    <div class="hero-actions">
+      <a href="#work" class="btn-primary">See our work</a>
+      <a href="#services" class="btn-ghost">What we do</a>
+    </div>
+    <div class="hero-scroll">Scroll</div>
+  </div>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span>Brand Identity</span>
+      <span class="accent">✦</span>
+      <span>E-Commerce</span>
+      <span class="accent">✦</span>
+      <span>Product Design</span>
+      <span class="accent">✦</span>
+      <span>Web Development</span>
+      <span class="accent">✦</span>
+      <span>Motion &amp; Animation</span>
+      <span class="accent">✦</span>
+      <span>Strategy</span>
+      <span class="accent">✦</span>
+      <span>Brand Identity</span>
+      <span class="accent">✦</span>
+      <span>E-Commerce</span>
+      <span class="accent">✦</span>
+      <span>Product Design</span>
+      <span class="accent">✦</span>
+      <span>Web Development</span>
+      <span class="accent">✦</span>
+      <span>Motion &amp; Animation</span>
+      <span class="accent">✦</span>
+      <span>Strategy</span>
+      <span class="accent">✦</span>
+    </div>
+  </div>
+
+  <!-- WORK -->
+  <section class="work" id="work">
+    <div class="section-label">Selected work</div>
+    <div class="work-header">
+      <h2 class="work-title">Recent Projects</h2>
+      <a href="#" class="work-all-link">All work →</a>
+    </div>
+
+    <div class="work-grid">
+      <!-- Card 1 — large -->
+      <div class="work-card">
+        <div class="card-img card-img-placeholder" style="aspect-ratio:3/4; background:#151510;">Aura</div>
+        <div class="card-meta">
+          <div>
+            <div class="card-name">Aura Botanicals</div>
+            <div class="card-tags"><span class="tag">Brand</span><span class="tag">E-Commerce</span></div>
+          </div>
+          <div class="card-index">A001</div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="work-card">
+        <div class="card-img card-img-placeholder" style="background:#0e1218;">Vela</div>
+        <div class="card-meta">
+          <div>
+            <div class="card-name">Vela Audio</div>
+            <div class="card-tags"><span class="tag">Product</span></div>
+          </div>
+          <div class="card-index">A002</div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="work-card">
+        <div class="card-img card-img-placeholder" style="background:#130f0a;">Dusk</div>
+        <div class="card-meta">
+          <div>
+            <div class="card-name">Dusk Spirits</div>
+            <div class="card-tags"><span class="tag">Identity</span></div>
+          </div>
+          <div class="card-index">A003</div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="work-card">
+        <div class="card-img card-img-placeholder" style="background:#0c1210;">Grove</div>
+        <div class="card-meta">
+          <div>
+            <div class="card-name">Grove Living</div>
+            <div class="card-tags"><span class="tag">Web</span></div>
+          </div>
+          <div class="card-index">A004</div>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="work-card">
+        <div class="card-img card-img-placeholder" style="background:#11080e;">Lune</div>
+        <div class="card-meta">
+          <div>
+            <div class="card-name">Lune Jewelry</div>
+            <div class="card-tags"><span class="tag">Brand</span></div>
+          </div>
+          <div class="card-index">A005</div>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="work-card">
+        <div class="card-img card-img-placeholder" style="background:#0a0f14;">Atlas</div>
+        <div class="card-meta">
+          <div>
+            <div class="card-name">Atlas Fund</div>
+            <div class="card-tags"><span class="tag">Strategy</span><span class="tag">Web</span></div>
+          </div>
+          <div class="card-index">A006</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="section-label">What we do</div>
+    <div class="services-grid">
+      <div class="service-item">
+        <div class="service-num">01</div>
+        <div class="service-name">Brand Identity</div>
+        <p class="service-desc">Visual systems that feel inevitable. Logo, type, color, and motion — built to scale across every surface.</p>
+      </div>
+      <div class="service-item">
+        <div class="service-num">02</div>
+        <div class="service-name">Web Design</div>
+        <p class="service-desc">Websites that convert without feeling like they're trying to. Editorial-grade layout with performance built in.</p>
+      </div>
+      <div class="service-item">
+        <div class="service-num">03</div>
+        <div class="service-name">E-Commerce</div>
+        <p class="service-desc">Premium storefronts where brands grow and consumers fall in love — from first click to checkout.</p>
+      </div>
+      <div class="service-item">
+        <div class="service-num">04</div>
+        <div class="service-name">Product Design</div>
+        <p class="service-desc">UX strategy and interface design for digital products. Research-backed, aesthetically considered, shipped fast.</p>
+      </div>
+      <div class="service-item">
+        <div class="service-num">05</div>
+        <div class="service-name">Motion &amp; Film</div>
+        <p class="service-desc">Animation, motion graphics, and video production that give your brand a voice beyond static media.</p>
+      </div>
+      <div class="service-item">
+        <div class="service-num">06</div>
+        <div class="service-name">Development</div>
+        <p class="service-desc">Frontend and full-stack engineering. Clean code, accessible markup, and obsessive attention to performance.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <div class="about" id="about">
+    <div class="about-text">
+      <div class="section-label">Who we are</div>
+      <h2 class="about-headline">
+        Small team.<br/>
+        <em>Big</em> standards.<br/>
+        No filler.
+      </h2>
+      <p class="about-body">Forma is a boutique design and technology studio based out of a belief that the best digital work comes from deep collaboration — not assembly lines. We keep our client roster small so we can give each project the attention it deserves.<br/><br/>We partner with founders, product teams, and creative directors who want the finished product to feel as good as the idea did at the start.</p>
+    </div>
+    <div class="about-stats">
+      <div>
+        <div class="stat-num">48</div>
+        <div class="stat-label">Projects shipped</div>
+      </div>
+      <div>
+        <div class="stat-num">6</div>
+        <div class="stat-label">Years of craft</div>
+      </div>
+      <div>
+        <div class="stat-num">12</div>
+        <div class="stat-label">Long-term clients</div>
+      </div>
+      <div>
+        <div class="stat-num">3</div>
+        <div class="stat-label">Studios worldwide</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <div class="footer-brand">Forma</div>
+      <p class="footer-tagline">Design &amp; Technology Studio<br/>Building beautiful digital things<br/>since 2018.</p>
+    </div>
+    <div class="footer-links">
+      <h4>Navigate</h4>
+      <ul>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#">Blog</a></li>
+      </ul>
+    </div>
+    <div class="footer-contact">
+      <p>New business enquiries</p>
+      <a href="mailto:hello@forma.studio">hello@forma.studio</a>
+      <br/>
+      <p style="margin-top:1.5rem">Follow along</p>
+      <a href="#">Instagram ↗</a>
+      <a href="#">LinkedIn ↗</a>
+    </div>
+  </footer>
+
+  <div class="footer-bottom">
+    <span>© 2024 Forma Studio. All rights reserved.</span>
+    <span>BLR / MUM / DEL</span>
+  </div>
+
+</body>
+</html>
