@@ -1,0 +1,122 @@
+/* The Naked Truth - Global Styles */
+/* Target Audience: Gen Z & Gen Alpha - Kinetic, Gamified, High-Contrast Cyber Aesthetics */
+
+:root {
+  --bg-primary: #05070c;
+  --bg-surface: rgba(12, 16, 26, 0.72);
+  --bg-surface-elevated: rgba(22, 28, 44, 0.85);
+  
+  --accent-cyan: #00f0ff;
+  --accent-magenta: #ff2a6d;
+  --accent-amber: #ffb703;
+  --accent-emerald: #05ffa1;
+  --accent-violet: #8b5cf6;
+
+  --bias-left: #00f0ff;
+  --bias-right: #ff2a6d;
+  --bias-neutral: #05ffa1;
+
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+
+  --font-mono: 'Space Mono', 'JetBrains Mono', 'Courier New', monospace;
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  --glass-border: 1px solid rgba(255, 255, 255, 0.12);
+  --glass-border-hover: 1px solid rgba(0, 240, 255, 0.4);
+  --glass-blur: blur(16px);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.55);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  cursor: none !important; /* Hide default OS cursor globally for custom GSAP Lens of Truth cursor */
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-image: 
+    radial-gradient(circle at 15% 20%, rgba(0, 240, 255, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 85% 80%, rgba(255, 42, 109, 0.05) 0%, transparent 40%);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  background: none;
+  border: none;
+  font-family: inherit;
+  color: inherit;
+  outline: none;
+}
+
+input, textarea {
+  font-family: inherit;
+  outline: none;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(5, 7, 12, 0.9);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 240, 255, 0.25);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 240, 255, 0.6);
+}
+
+/* Biased / Consensus Hover Target Clues */
+[data-cursor-target="biased"] {
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+[data-cursor-target="consensus"] {
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+/* Glitch scanline effect overlay */
+.scanlines-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.035;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.03),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.03)
+  );
+  background-size: 100% 4px, 6px 100%;
+}

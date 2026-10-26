@@ -1,0 +1,11 @@
+.canvasContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none; /* Crucial so DOM overlays receive clicks and interactions */
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 50%, #080c16 0%, #05070c 100%);
+}

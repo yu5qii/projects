@@ -1,0 +1,131 @@
+# ==========================================
+# The Naked Truth - Anti-Echo Chamber Reader
+# Comprehensive .gitignore
+# ==========================================
+
+# ------------------------------------------
+# Node.js & Dependencies
+# ------------------------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.pnpm-store/
+
+# ------------------------------------------
+# Next.js Build & Outputs
+# ------------------------------------------
+.next/
+out/
+build/
+dist/
+.vercel
+*.tsbuildinfo
+
+# ------------------------------------------
+# Environment Variables & Secret Keys
+# (NEVER commit secrets, LLM keys, DB credentials)
+# ------------------------------------------
+.env
+.env*.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+*.pem
+*.key
+*.cert
+
+# ------------------------------------------
+# Python & FastAPI Artifacts
+# ------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ------------------------------------------
+# Python Virtual Environments
+# ------------------------------------------
+venv/
+.venv/
+env/
+.env/
+ENV/
+env.bak/
+venv.bak/
+
+# ------------------------------------------
+# Testing & Code Coverage
+# ------------------------------------------
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+nosetests.xml
+
+# ------------------------------------------
+# Database & Redis State
+# ------------------------------------------
+*.sqlite
+*.sqlite3
+*.db
+dump.rdb
+
+# ------------------------------------------
+# OS Generated Files (Windows, macOS, Linux)
+# ------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# ------------------------------------------
+# IDE & Code Editor Files
+# ------------------------------------------
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.sublime-workspace
+*.sublime-project
+
+# ------------------------------------------
+# Temporary & Log Files
+# ------------------------------------------
+*.log
+logs/
+*.tmp
+*.temp
