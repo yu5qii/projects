@@ -1,97 +1,68 @@
-# The Naked Truth (Anti-Echo Chamber News Reader)
+# The Naked Truth — Ultra-Minimalist Anti-Echo Chamber News Reader
 
-> An interactive, kinetic 3D WebGL web application engineered to pierce through media polarization. It analyzes any news article URL, locates counterpart coverage from the opposite political bias, and uses AI to distill undeniable consensus facts while exposing blindspots and omitted facts.
-
----
-
-## 🎯 Architecture Overview
-
-### Frontend Architecture
-- **Framework:** Next.js 14 (App Router) + TypeScript
-- **Styling:** CSS Modules with SCSS (Sass) — Strictly no Tailwind
-- **3D WebGL Engine:** Three.js, React Three Fiber (R3F), and `@react-three/drei`
-- **Animations & Physics:** GSAP (quickTo mouse lerping, kinetic slam-in animations)
-- **State Management:** Zustand (`src/lib/store.ts`) bridging DOM overlay actions with 3D Canvas camera/shard animations
-
-```
-src/
-├── app/
-│   ├── layout.tsx                # Master layout with Canvas / DOM split & scanlines
-│   └── page.tsx                  # Main single-page interactive reader
-├── components/
-│   ├── canvas/                   # R3F WebGL Components ONLY
-│   │   ├── GlassShards.tsx       # Chaotic echo-chamber shards assembling into truth crystal
-│   │   ├── MediaNoiseParticles.tsx # Ambient media static particle cloud
-│   │   └── Scene.tsx             # Canvas wrapper, lights, PerformanceMonitor & camera rig
-│   └── dom/                      # React HTML / SCSS Components ONLY
-│       ├── AnalysisStepTracker.tsx # Dynamic kinetic progress scanner
-│       ├── ConsensusDashboard.tsx  # Three-column fact matrix & source comparison
-│       ├── Header.tsx            # Cyber header with live engine status
-│       ├── LensCursor.tsx        # GSAP-powered custom "Lens of Truth" cursor
-│       └── UrlInputForm.tsx      # URL submission form with Gen-Z quick presets
-├── lib/
-│   └── store.ts                  # Zustand state synchronization
-└── styles/
-    └── globals.scss              # Cyberpunk high-contrast dark theme & resets
-```
-
-### Backend Architecture
-- **Framework:** FastAPI (Python)
-- **Scraping Engine:** Trafilatura & BeautifulSoup4
-- **Database & Cache:** SQLAlchemy (PostgreSQL) & Redis
-- **AI Engine:** LangChain strictly instructed to return factual JSON without adjectives or opinion framing
-
-```
-backend/
-├── api/
-│   └── routes/
-│       └── analysis.py           # Analysis controllers & endpoints
-├── models/
-│   ├── db_models.py              # SQLAlchemy database tables
-│   └── schemas.py                # Pydantic schemas
-├── services/
-│   ├── bias_engine.py            # Publisher bias & domain scoring
-│   ├── llm_processor.py          # Neutral fact-extraction prompt engine
-│   └── scraper.py                # Trafilatura / BS4 scraping service
-├── main.py                       # FastAPI application entrypoint
-└── requirements.txt              # Python dependencies
-```
+> A premium, typography-first news reader inspired by the dark minimalist design principles of **gilhuybrecht.com**. Engineered to pierce through media polarization, the application isolates undeniable consensus facts agreed upon by opposing publications, reveals partisan omissions, and features an interactive desktop scroll "unzipping" split-screen view powered by local quantized AI (**TinyLlama 1.1B**).
 
 ---
 
-## 🚀 Getting Started
+## Design System & Aesthetic (Inspired by Gil Huybrecht)
 
-### 1. Frontend Setup
+- **Pure Typography Structure:** Replaces boxes, drop shadows, and neon borders with razor-sharp typographic scale, generous whitespace, and subtle hairlines (`rgba(255, 255, 255, 0.08)`).
+- **Deep Charcoal / Black Palette:** Deep `#080808` canvas, stark white high-contrast text (`#ffffff`), and calibrated greys (`#a1a1aa`, `#71717a`, `#52525b`) for secondary hierarchy and micro-metadata.
+- **Subtle Micro-Interactions:** Smooth text color shifts and hairline expansions on hover rather than bulky containers.
+- **Strictly No Tailwind CSS:** Scoped CSS Modules with SCSS (`sass`).
+
+---
+
+## Application Architecture
+
+### Homepage (Global News Hub)
+- **Top Lead Dispatch:** High-impact editorial headline, timestamp, category tag, and consensus pill indicating verified facts.
+- **Curated Global Wire Grid:** Two-column editorial grid showcasing real-time global dispatches across Geopolitics, Climate, Technology, and Macroeconomics.
+- **Subtle Hover States:** Pure typographic feedback and arrow translations (`transform: translate(3px, -3px)`).
+- **Custom URL Inspector:** Minimalist drawer enabling users to paste and analyze any live news article URL.
+
+### Article Detail Page (Dynamic Perspectives)
+- **Centered AI Overview:** Distills core undeniable facts agreed upon by opposing sides, synthesized by the local quantized model with latency telemetry badges.
+- **Desktop Scroll "Unzip" Behavior:**
+  - As the user scrolls past the summary, **GSAP** seamlessly pulls apart the single-column summary into a **50/50 split-screen vertical layout**.
+  - A central hairline seam tracks unzipping progress.
+  - **Left Column:** Left-Leaning Perspective, editorial framing narrative, emphasized points, and omitted blindspots.
+  - **Right Column:** Right-Leaning Perspective, editorial framing narrative, emphasized points, and omitted blindspots.
+- **Source Transparency Metadata:** Subtly lists specific outlets consulted (*Sourced from: The Guardian, MSNBC* vs. *Sourced from: Fox News, Wall Street Journal*).
+- **Mobile Viewport Behavior:** Automatically disables the split-screen on screens $\le$ 768px in favor of a sticky top tab navigation bar with three options: `"Left"`, `"AI Overview"`, and `"Right"`, with smooth crossfades.
+- **Shareable Typographic Artifacts:** 1-click export button generates a 1200×1400px Retina social media card directly onto HTML5 Canvas with deep charcoal typography, instant PNG download.
+
+---
+
+## Local AI & Quantization Infrastructure
+
+### TinyLlama 1.1B Quantized Service
+- Located at [`backend/services/tinyllama_service.py`](file:///d:/CODE/projects/NEWS/backend/services/tinyllama_service.py).
+- Implements 4-bit NormalFloat (`nf4`) and 8-bit quantization via **BitsAndBytes** and Hugging Face **Transformers**.
+- Eliminates UI hanging with sub-200ms latency.
+- Features resilient deterministic fallback synthesis when PyTorch CUDA is not present.
+
+### Targeted LoRA Fine-Tuning Pipeline
+- Located at [`backend/training/train_lora.py`](file:///d:/CODE/projects/NEWS/backend/training/train_lora.py).
+- Uses `peft`, `trl`, and `bitsandbytes` to fine-tune `TinyLlama/TinyLlama-1.1B-Chat-v1.0` on contrastive news pairs.
+- Trained to strictly isolate consensus facts and partisan omissions without adjectives or editorial rhetoric.
+- Training dataset provided in [`backend/training/dataset_contrastive_news.jsonl`](file:///d:/CODE/projects/NEWS/backend/training/dataset_contrastive_news.jsonl).
+
+---
+
+## Quickstart
+
+### 1. Frontend (Next.js App Router)
 ```bash
-# Install dependencies
 npm install
-
-# Run Next.js development server
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000).
 
-### 2. Backend Setup
+### 2. Backend (FastAPI + Local AI)
 ```bash
-# Create and activate python virtual environment
-python -m venv venv
-venv\Scripts\activate   # Windows
-# or: source venv/bin/activate  # macOS/Linux
-
-# Install backend dependencies
+# In backend directory
 pip install -r backend/requirements.txt
-
-# Run FastAPI server
 uvicorn backend.main:app --reload --port 8000
 ```
-API Documentation will be accessible at [http://localhost:8000/docs](http://localhost:8000/docs).
-
----
-
-## 🕹️ Interactive Features
-1. **The "Lens of Truth" Cursor:** The default OS cursor is hidden. A GSAP-powered floating orb cursor follows the pointer. Hovering over biased cards causes jitter and warning chromatic split; hovering over verified consensus facts clarifies and magnifies the facts.
-2. **Kinetic Camera & Shard Assembly:** Pasting a URL or clicking a preset triggers `isAnalyzing: true`. The 3D camera zooms in dynamically, and the chaotic glass shards assemble into an aligned geometric truth crystal.
-3. **Three-Column Consensus Dashboard:** Displays:
-   - **Omitted by Source A:** Verified facts mentioned by the opposing source but omitted by Source A.
-   - **The Consensus:** 4–7 undeniable bullet-point facts present in BOTH publications.
-   - **Omitted by Source B:** Facts present in Source A but ignored by Source B.
+Interactive API documentation available at [http://localhost:8000/docs](http://localhost:8000/docs).

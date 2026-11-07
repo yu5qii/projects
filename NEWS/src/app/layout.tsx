@@ -1,13 +1,12 @@
 import type { Metadata } from 'next';
 import '@/styles/globals.scss';
-import { Scene } from '@/components/canvas/Scene';
-import { LensCursor } from '@/components/dom/LensCursor';
-import { Header } from '@/components/dom/Header';
+import { Header } from '@/components/minimal/Header';
+import { UrlAnalyzerModal } from '@/components/minimal/UrlAnalyzerModal';
 
 export const metadata: Metadata = {
-  title: 'The Naked Truth | Anti-Echo Chamber News Reader',
+  title: 'The Naked Truth — Anti-Echo Chamber News Hub',
   description:
-    'Distill undeniable verified facts from polarizing news stories and expose media blindspots with a kinetic 3D WebGL experience.',
+    'An ultra-minimalist, typography-driven news reader that isolates undeniable facts agreed on by both sides, and reveals partisan omissions using local quantized AI.',
 };
 
 export default function RootLayout({
@@ -18,22 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {/* Fixed 3D WebGL Background Canvas (Canvas Layer) */}
-        <Scene />
-
-        {/* GSAP-Powered "Lens of Truth" Custom Cursor */}
-        <LensCursor />
-
-        {/* Subtle Cyberpunk Scanlines Texture */}
-        <div className="scanlines-overlay" />
-
-        {/* HTML DOM Overlays (UI Layer) */}
-        <div style={{ position: 'relative', zIndex: 10, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-          <Header />
-          <main style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-            {children}
-          </main>
-        </div>
+        <Header />
+        <main>{children}</main>
+        <UrlAnalyzerModal />
       </body>
     </html>
   );

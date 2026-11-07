@@ -7,7 +7,10 @@ requests>=2.32.3
 httpx>=0.27.2
 sqlalchemy>=2.0.35
 redis>=5.1.0
-langchain>=0.3.0
-langchain-core>=0.3.0
-langchain-openai>=0.2.0
 python-dotenv>=1.0.1
+# Local AI, Quantization & LoRA Fine-Tuning:
+transformers>=4.44.0
+peft>=0.12.0
+accelerate>=0.34.0
+datasets>=2.21.0
+trl>=0.9.6
